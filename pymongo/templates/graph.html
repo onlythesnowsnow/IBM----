@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="/static/echarts.min.js"></script>
+	<script type="text/javascript" src="/static/jquery-1.8.0.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+
+
+    <div id="main" style="width: 1500px;height:1500px;"></div>
+    <script type="text/javascript">
+    function toJson(str){
+    return JSON.parse(str);
+    }
+	var myChart = echarts.init(document.getElementById('main'));
+	var js_data1 = toJson({{data1|tojson}})
+	var js_data2 = toJson({{data2|tojson}})
+	var js_data3 = toJson({{data3|tojson}})
+	var js_data4 = toJson({{data4|tojson}})
+option = {
+    backgroundColor: new echarts.graphic.RadialGradient(0.3, 0.3, 0.8, [{
+        offset: 0,
+        color: '#f7f8fa'
+    }, {
+        offset: 1,
+        color: '#cdd0d5'
+    }]),
+       title:{
+        text: "保险数据分析",
+        subtext: "各节点关系",
+        top: "top",
+        left: "center"
+    },
+      tooltip: {},
+      legend: [{
+          formatter: function (name) {
+        return echarts.format.truncateText(name, 40, '14px Microsoft Yahei', '…');
+    },
+    tooltip: {
+        show: true
+    },
+          selectedMode: 'false',
+          bottom: 20,
+          data: js_data3
+      }],
+      toolbox: {
+        show : true,
+        feature : {
+            dataView : {show: true, readOnly: true},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+      animationDuration: 3000,
+      animationEasingUpdate: 'quinticInOut',
+      series: [{
+          name: '保险数据分析',
+          type: 'graph',
+          layout: 'force',
+
+          force: {
+              repulsion: 50
+          },
+          data: js_data1 ,
+          links: js_data2,
+          categories: js_data4,
+          focusNodeAdjacency: true,
+          roam: true,
+          label: {
+              normal: {
+
+                  show: false,
+                  position: 'top',
+
+              }
+          },
+          lineStyle: {
+              normal: {
+                  color: 'source',
+                  curveness: 0,
+                  type: "solid"
+              }
+          }
+      }]
+  };
+myChart.setOption(option);
+    </script>
+</body>
+</html>

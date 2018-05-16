@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+{% block head %}
+{% endblock %}
+{% block title %}
+    首页
+{% endblock %}
+
+{% block main %}
+<p> 已添加的文档有：{{Data}}</p>
+<table id="table"></table>
+<script>
+    function toJson(str){
+    return JSON.parse(str);
+    }
+
+	var js_data = toJson({{data|tojson}})
+
+$('#table').bootstrapTable({
+    			cache: true,      //设置为 false 禁用 AJAX 数据缓存
+				height: 800,
+				striped: true,   //设置为 true 会有隔行变色效果
+				pagination: true, //设置为 true 会在表格底部显示分页条
+				pageSize: 20,     //如果设置了分页，页面数据条数
+				pageNumber:1,    //如果设置了分页，首页页码
+				pageList: [20, 50, 100],  //如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+				search: true,
+				showColumns: true,   //是否显示 内容列下拉框
+				showRefresh: true,   //是否显示 刷新按钮
+				showExport: true,
+				exportTypes: ['csv','txt','xml'],
+				search: true,
+				clickToSelect: true,  //设置true 将在点击行时，自动选择rediobox 和 checkbox
+                columns: [{field:"product_name",title:"产品名称",align:"center",valign:"middle",sortable:"true"},{field:"design_type",title:"design_type",align:"center",valign:"middle",sortable:"true"},{field:"product_type",title:"product_type",align:"center",valign:"middle",sortable:"true"},{field:"sell_status",title:"sell_status",align:"center",valign:"middle",sortable:"true"},{field:"company_name",title:"company_name",align:"center",valign:"middle",sortable:"true"}],
+                data: js_data,
+                formatNoMatches: function(){
+                	return '无符合条件的记录';
+                }
+});
+</script>
+{% endblock %}
